@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>新闻搜索</title>
+    <link rel="stylesheet" href="./img/style.css">
+    <link rel="stylesheet" href="./img/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./css/icon.css">
+    <link rel="stylesheet" type="text/css" href="./css/demo.css">
+    <style>
+        select{
+            height: 38px;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+<!-- 顶部搜索	 - start -->
+<div class="header">
+    <div class="head">
+        <div class="logo"><a href="index.html"><img src="img/logo.png" width="100%" alt=""></a></div>
+        <form action="list3.html" class="formBox" method="get">
+            <input type="text" class="inputSeach" id="inputSeach" style="width:380px" name="keywords"
+                   onfocus="ajaxTopQuery()">
+            <input type="submit" value="搜索一下" class="inputSub">
+            <select name="fenlei" id="fenlei">
+                <option value ="caijing">财经</option>
+                <option value ="keji">科技</option>
+                <option value="shishang">时尚</option>
+                <option value="tiyu">体育</option>
+                <option value="xinwen">新闻</option>
+                <option value="yule">娱乐</option>
+            </select>
+        </form>
+    </div>
+</div>
+
+<!-- 顶部搜索	 - end -->
+<div class="contentBox">
+    <!-- 中间左边区域 - start -->
+    <div class="contener_l">
+        <div class="count">
+            <div class="showTool">
+                <div class="toolBoxcount">搜索引擎为您找到相关结果约0个</div>
+                <span class="tool">搜索工具</span>
+                <div class="toolBox">
+                    从:<input class="easyui-datetimebox" style="height: 25px ; width: 100px" name="startDate"/>
+                    至:<input class="easyui-datetimebox" style="height: 25px ; width: 100px" name="endDate"/>
+                    <input type="button" onclick="ajaxQuery('1','10')" value="确定">
+                    <input name="editor" placeholder="请输入编辑" onkeypress="ajaxQuery('1','10')"
+                           style="height: 15px ; width: 100px"/>
+                    <input name="source" placeholder="请输入来源" onkeypress="ajaxQuery('1','10')"
+                           style="height: 15px ; width: 100px"/>
+                    <span class="tool openTool">收起工具</span>
+                </div>
+            </div>
+        </div>
+        <div class="itemList">
+            <div class="title">没有找到相关内容</div>
+        </div>
+        <div class="relevant">
+            <div class="title">
+                相关搜索
+            </div>
+            <div>
+                <a href="list3.html?keywords=贾乃亮#">贾乃亮</a>
+                <a href="list3.html?keywords=麻醉药#">麻醉药</a>
+                <a href="list3.html?keywords=王丽坤过生日#">王丽坤过生日</a>
+                <a href="list3.html?keywords=小猪佩奇#">小猪佩奇</a>
+                <a href="list3.html?keywords=中国运动员“商业”之路#">中国运动员“商业”之路</a>
+                <a href="list3.html?keywords=最年轻亿万富翁#">最年轻亿万富翁</a>
+                <a href="list3.html?keywords=借款2600万元、7亿债务即将到期#">借款2600万元、7亿债务即将到期</a>
+                <a href="list3.html?keywords=怀抱宝宝尽显父爱#">怀抱宝宝尽显父爱</a>
+                <a href="list3.html?keywords=亚太区最帅100张面孔#">亚太区最帅100张面孔</a>
+            </div>
+        </div>
+        <div class="pageList" style="width: 1000px">
+        </div>
+    </div>
+    <!-- 中间左边区域 - end -->
+    <!-- 中间右边区域 - start -->
+    <div class="contener_r">
+        <div class="advert">
+            <div class="title">大青山生态风景旅游区</div>
+            <div class="ban_swiper">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="./img/adv1.jpeg" alt=""></div>
+                        <div class="swiper-slide"><img src="./img/adv2.jpeg" alt=""></div>
+                        <div class="swiper-slide"><img src="./img/adv1.jpeg" alt=""></div>
+                        <div class="swiper-slide"><img src="./img/adv2.jpeg" alt=""></div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+            <div class="des">
+                呼和浩特市回民区大青山生态风景旅游区位于市区北郊，南临京包铁路、呼包高速公路、110国道，北邻塞北重镇武川，远接边城口岸二连浩特和蒙古国，呼武公路纵贯南北。旅游区内山峰绵延，沟壑纵横，动植物资源丰富，有建于明清时期的藏传佛教寺庙——乌素图召；记载“胡服骑射”的赵长城；风光翠霭的乌素图国家森林公园及中小学生素质教育基地——内蒙古青少年生态园。
+            </div>
+            <div class="showUrl"><a href="#">大青山生态风景旅游区</a> <span>景点广告</span></div>
+        </div>
+    </div>
+
+
+    <!-- 中间右边区域 - end -->
+
+</div>
+<script src="./img/swiper.min.js"></script>
+<script src="./img/jquery.min.js"></script>
+<script src="./img/jquery.easyui.min.js"></script>
+<script>
+
+    var swiper = new Swiper('.swiper-container', {
+        spaceBetween: 30,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+        },
+        autoplay: true
+    });
+    var swiper = new Swiper('.swiper-hot-container', {
+        spaceBetween: 30,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+        },
+        autoplay: true
+    });
+
+    $('.tool').click(function () {
+        if ($('.showTool').hasClass('act')) {
+            $('.showTool').removeClass('act')
+        } else {
+            $('.showTool').addClass('act')
+        }
+    })
+
+    $('.inputSeach').focus(function () {
+        $('.recommend').css({display: 'block'})
+    })
+    $('.inputSeach').blur(function () {
+        setTimeout(function () {
+            $('.recommend').css({display: 'none'})
+        }, 100)
+    })
+    $('.recommend .item').click(function () {
+        $('.inputSeach').val($(this).text())
+        $('.recommend').css({display: 'none'})
+    })
+
+    var tabInd = 0;
+    var time = ''
+
+    $('.advTable .lab div').hover(function () {
+        clearInterval(time)
+        tabInd = $(this).index();
+        tabSwitch(tabInd)
+    }, function () {
+        time = setInterval(automaticSwitch, 1000)
+    })
+
+    function tabSwitch(obj) {
+        $('.advTable .lab div').eq(obj).addClass('on').siblings().removeClass('on')
+        tabInd = obj
+        $('.advTable .cont .items').eq(tabInd).show().siblings().hide()
+    }
+
+    function automaticSwitch() {
+        tabInd++
+        if (tabInd >= $('.advTable .lab div').length) {
+            tabInd = 0;
+        }
+        tabSwitch(tabInd)
+    }
+
+    <!--广告滑动速度-->
+    time = setInterval(automaticSwitch, 3000)
+</script>
+
+<!--js  和 jQuery代码-->
+
+<script src="js/search.js"></script>
+
+
+</body>
+
+</html>

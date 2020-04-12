@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaobai.gossip.mapper.NewsMapper">
+    <!--获取新闻列表的（每次100条数据）-->
+    <select id="queryAndIdGtAndPage" parameterType="string" resultType="news">
+        select * from wynewscaijing where id > '${value}' limit 0 ,100
+    </select>
+    <!--获取最大id的sql-->
+    <select id="queryAndIdMax" parameterType="string" resultType="string">
+        select max(id) from ( select * from wynewscaijing where id > '${value}' limit 0 ,100) temp;
+    </select>
+</mapper>

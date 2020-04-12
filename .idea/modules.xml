@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/bishe-interface/bishe-interface.iml" filepath="$PROJECT_DIR$/bishe-interface/bishe-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/bishe-parent.iml" filepath="$PROJECT_DIR$/.idea/bishe-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bishe-pojo/bishe-pojo.iml" filepath="$PROJECT_DIR$/bishe-pojo/bishe-pojo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bishe-searchPortal/bishe-searchPortal.iml" filepath="$PROJECT_DIR$/bishe-searchPortal/bishe-searchPortal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/search-service/search-service.iml" filepath="$PROJECT_DIR$/search-service/search-service.iml" />
+    </modules>
+  </component>
+</project>
