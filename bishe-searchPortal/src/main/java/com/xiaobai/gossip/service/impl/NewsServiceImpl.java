@@ -42,23 +42,49 @@ public class NewsServiceImpl implements NewsService {
      */
     @Override
     public void newsIndexWriter() throws Exception {
-
+        //mysql表格的名字
+        String tablecaijng="wynewscaijing";
+        String tablekeji="wynewskeji";
+        String tableshishang="wynewsshishang";
+        String tabletiyu="wynewstiyu";
+        String tablexinwen="wynewsxinwen";
+        String tableyule="wynewsyule";
+        //jedis的名字
+        String jediscaijing="spider:wy:caijingid";
+        String jedisshishang="spider:wy:shishangid";
+        String jediskeji="spider:wy:kejiid";
+        String jedistiyu="spider:wy:tiyuid";
+        String jedisxinwen="spider:wy:xinwenid";
+        String jedisyule="spider:wy:yuleid";
         //1.访问redis获取最大的id：maxid
         Jedis jedis = jedisPool.getResource();
-        String nextMaxId = jedis.get("bigData:gossip:nextMaxId");
+        String caijingmaxid = jedis.get(jediscaijing);
+        String kejimaxid = jedis.get(jediskeji);
+        String shishangmaxid = jedis.get(jedisshishang);
+        String tiyumaxid = jedis.get(jedistiyu);
+        String xinwenmaxid = jedis.get(jedisxinwen);
+        String yulemaxid = jedis.get(jedisyule);
         jedis.close();
-        if (StringUtils.isEmpty(nextMaxId)) {
-            nextMaxId = "0";
-        }
+        writenews(tablecaijng,jediscaijing,caijingmaxid);
+        writenews(tablekeji,jediskeji,kejimaxid);
+        writenews(tableshishang,jedisshishang,shishangmaxid);
+        writenews(tabletiyu,jedistiyu,tiyumaxid);
+        writenews(tablexinwen,jedisxinwen,xinwenmaxid);
+        writenews(tableyule,jedisyule,yulemaxid);
+    }
 
+    private void writenews(String table, String jedisname, String maxid) throws Exception {
+        if (StringUtils.isEmpty(maxid)) {
+            maxid = "0";
+        }
         while (true) {
             //2.调用dao，获取新闻列表数据
-            List<News> newsList = newsMapper.queryAndIdGtAndPage(nextMaxId);
+            List<News> newsList = newsMapper.querytonews(table,maxid);
             //跳出循环的逻辑
             if (newsList == null || newsList.size() <= 0) {
                 //将nextMaxId写入redis中，为下次使用
-                jedis = jedisPool.getResource();
-                jedis.set("bigData:gossip:nextMaxId", nextMaxId);
+                Jedis jedis = jedisPool.getResource();
+                jedis.set(jedisname, maxid);
                 jedis.close();
                 break;
             }
@@ -78,11 +104,10 @@ public class NewsServiceImpl implements NewsService {
                 news.setTime(timeNew);
 
             }
-            indexWriterService.saveBeans(newsList);
-            System.out.println("写入索引库：" + newsList.size());
+            indexWriterService.saveBeans(newsList,table);
             //4. 获取这一页数据的最大id
-            nextMaxId = newsMapper.queryAndIdMax(nextMaxId);
-
+            maxid = newsMapper.maxid(table,maxid);
+            System.out.println(table+"写入索引库："+ newsList.size());
         }
     }
 

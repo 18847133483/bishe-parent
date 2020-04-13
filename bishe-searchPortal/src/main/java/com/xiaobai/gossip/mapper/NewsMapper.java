@@ -1,6 +1,7 @@
 package com.xiaobai.gossip.mapper;
 
 import com.xiaobai.gossip.pojo.News;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,13 +15,13 @@ public interface NewsMapper {
      * @param id ： 获取数据的起始id（上100条数据的最大id）
      * @return sql: select * from news where id > 参数  limit 0,100
      */
-    public List<News> queryAndIdGtAndPage(String id);
-
+    public List<News> querytonews(@Param("table") String table, @Param("id")String id);
     /**
      * 获取当前100数据的最大id值
      *
      * @param id 最大的id
      * @return select max(id) from (select * from news where id > 参数  limit 0,100 ) as temp
      */
-    public String queryAndIdMax(String id);
+    public String maxid(@Param("table") String table, @Param("id")String id);
+
 }

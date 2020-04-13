@@ -46,7 +46,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
-
         <!-- mybatis 相关的依赖包 -->
         <dependency>
             <groupId>org.mybatis</groupId>

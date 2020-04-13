@@ -16,7 +16,22 @@ public class IndexWriterServiceImpl implements IndexWriterService {
     //从spring容器中注入cloudSolrServer
     @Autowired
     @Qualifier("caijing")
-    private SolrServer solrServer;
+    private SolrServer caijingSolrServer;
+    @Autowired
+    @Qualifier("keji")
+    private SolrServer kejiSolrServer;
+    @Autowired
+    @Qualifier("shishang")
+    private SolrServer shishangSolrServer;
+    @Autowired
+    @Qualifier("tiyu")
+    private SolrServer tiyuSolrServer;
+    @Autowired
+    @Qualifier("xinwen")
+    private SolrServer xinwenSolrServer;
+    @Autowired
+    @Qualifier("yule")
+    private SolrServer yuleSolrServer;
 
     /**
      * 索引写入的方法
@@ -25,15 +40,59 @@ public class IndexWriterServiceImpl implements IndexWriterService {
      * @throws Exception
      */
     @Override
-    public void saveBeans(List<News> newsList) throws Exception {
+    public void saveBeans(List<News> newsList,String fenlei) throws Exception {
+        if (fenlei.equals("wynewscaijing")) {
+            caijingSolrServer.addBeans(newsList);
+            caijingSolrServer.commit();
+        }
+        if (fenlei.equals("wynewskeji")) {
+            kejiSolrServer.addBeans(newsList);
+            kejiSolrServer.commit();
+        }
+        if (fenlei.equals("wynewsshishang")) {
+            shishangSolrServer.addBeans(newsList);
+            shishangSolrServer.commit();
+        }
+        if (fenlei.equals("wynewstiyu")) {
+            tiyuSolrServer.addBeans(newsList);
+            tiyuSolrServer.commit();
+        }
+        if (fenlei.equals("wynewsxinwen")) {
+            xinwenSolrServer.addBeans(newsList);
+            xinwenSolrServer.commit();
+        }
+        if (fenlei.equals("wynewsyule")) {
+            yuleSolrServer.addBeans(newsList);
+            yuleSolrServer.commit();
+        }
 
-        solrServer.addBeans(newsList);
-        solrServer.commit();
     }
 
     @Override
-    public void savenews(News news) throws Exception {
-        solrServer.addBean(news);
-        solrServer.commit();
+    public void savenews(News news,String fenlei) throws Exception {
+        if (fenlei.equals("caijing")) {
+            caijingSolrServer.addBean(news);
+            caijingSolrServer.commit();
+        }
+        if (fenlei.equals("keji")) {
+            kejiSolrServer.addBean(news);
+            kejiSolrServer.commit();
+        }
+        if (fenlei.equals("shishang")) {
+            shishangSolrServer.addBean(news);
+            shishangSolrServer.commit();
+        }
+        if (fenlei.equals("tiyu")) {
+            tiyuSolrServer.addBean(news);
+            tiyuSolrServer.commit();
+        }
+        if (fenlei.equals("xinwen")) {
+            xinwenSolrServer.addBean(news);
+            xinwenSolrServer.commit();
+        }
+        if (fenlei.equals("yule")) {
+            yuleSolrServer.addBean(news);
+            yuleSolrServer.commit();
+        }
     }
 }

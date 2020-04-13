@@ -16,7 +16,7 @@ public interface IndexWriterService {
      * @param newsList
      * @throws Exception
      */
-    public void saveBeans(List<News> newsList) throws Exception;
+    public void saveBeans(List<News> newsList,String fenlei) throws Exception;
 
     /**
      * 单个新闻写入
@@ -24,5 +24,5 @@ public interface IndexWriterService {
      * @param news
      * @throws Exception
      */
-    public void savenews(News news) throws Exception;
+    public void savenews(News news,String fenlei) throws Exception;
 }

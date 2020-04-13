@@ -14,8 +14,8 @@ public class IndexWriterTiming {
     @Autowired
     private NewsService newsService;
 
-    //设置这个方法是定时执行： 每隔15分钟执行一次
-    @Scheduled(cron = "0 0/1 * * * ?")
+    //每隔15分钟执行一次
+    @Scheduled(cron = "0 0/15 * * * ?")
     public void indexWriter() {
         try {
             newsService.newsIndexWriter();

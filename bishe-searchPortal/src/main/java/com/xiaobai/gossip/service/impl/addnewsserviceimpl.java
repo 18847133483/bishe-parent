@@ -38,7 +38,7 @@ public class addnewsserviceimpl implements addnewsservice {
         news.setEditor("UD_" + minnews.getEditor());
         news.setSource("UD_" + minnews.getSource());
         news.setUrl("未定义");
-        indexWriterService.savenews(news);
+        indexWriterService.savenews(news,"caijing");
         return news;
     }
 }
