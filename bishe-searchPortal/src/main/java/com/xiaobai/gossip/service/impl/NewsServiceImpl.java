@@ -1,4 +1,5 @@
 package com.xiaobai.gossip.service.impl;
+
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.xiaobai.gossip.mapper.NewsMapper;
 import com.xiaobai.gossip.pojo.News;
@@ -16,6 +17,7 @@ import redis.clients.jedis.JedisPool;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 @Service
 public class NewsServiceImpl implements NewsService {
     //从本地spring容器注入
@@ -30,6 +32,7 @@ public class NewsServiceImpl implements NewsService {
     private IndexSearcherService indexSearcherService;
     @Autowired
     private JedisPool jedisPool;
+
     /**
      * 1，获取数据库中的数据
      * 2. 调用远程索引写入服务，将新闻数据写入索引库
@@ -44,18 +47,18 @@ public class NewsServiceImpl implements NewsService {
         Jedis jedis = jedisPool.getResource();
         String nextMaxId = jedis.get("bigData:gossip:nextMaxId");
         jedis.close();
-        if(StringUtils.isEmpty(nextMaxId)){
+        if (StringUtils.isEmpty(nextMaxId)) {
             nextMaxId = "0";
         }
 
-        while (true){
+        while (true) {
             //2.调用dao，获取新闻列表数据
             List<News> newsList = newsMapper.queryAndIdGtAndPage(nextMaxId);
             //跳出循环的逻辑
-            if(newsList == null || newsList.size() <= 0){
+            if (newsList == null || newsList.size() <= 0) {
                 //将nextMaxId写入redis中，为下次使用
-                jedis  = jedisPool.getResource();
-                jedis.set("bigData:gossip:nextMaxId",nextMaxId);
+                jedis = jedisPool.getResource();
+                jedis.set("bigData:gossip:nextMaxId", nextMaxId);
                 jedis.close();
                 break;
             }
@@ -65,8 +68,8 @@ public class NewsServiceImpl implements NewsService {
             for (News news : newsList) {
                 //从数据库中获取的日期：2019-01-14 09:52:53
                 String timeOld = news.getTime();
-                if(StringUtils.isEmpty(timeOld)){
-                    timeOld="2000-01-21 01:01:01";
+                if (StringUtils.isEmpty(timeOld)) {
+                    timeOld = "2000-01-21 01:01:01";
                 }
                 //转成日期
                 Date oldDate = formatOld.parse(timeOld);
@@ -82,6 +85,7 @@ public class NewsServiceImpl implements NewsService {
 
         }
     }
+
     /**
      * 根据关键字进行索引库搜索
      *
@@ -99,19 +103,21 @@ public class NewsServiceImpl implements NewsService {
         for (News news : newsList) {
             String content = news.getContent();
 
-            if(StringUtils.isNotEmpty(content) && (content.length() > 70 )){
-                content = content.substring(0,69) + "...";
+            if (StringUtils.isNotEmpty(content) && (content.length() > 70)) {
+                content = content.substring(0, 69) + "...";
                 news.setContent(content);
             }
         }
         //返回新闻列表
         return newsList;
     }
+
     @Override
-    public News finfid(String id,String fenlei) throws Exception {
-        News news = indexSearcherService.findid(id,fenlei);
+    public News finfid(String id, String fenlei) throws Exception {
+        News news = indexSearcherService.findid(id, fenlei);
         return news;
     }
+
     /**
      * 分页查询
      *
@@ -127,8 +133,8 @@ public class NewsServiceImpl implements NewsService {
         for (News news : pageBean.getNewsList()) {
             String content = news.getContent();
 
-            if(StringUtils.isNotEmpty(content) && (content.length() > 100 )){
-                content = content.substring(0,100) + "...";
+            if (StringUtils.isNotEmpty(content) && (content.length() > 100)) {
+                content = content.substring(0, 100) + "...";
                 news.setContent(content);
             }
         }

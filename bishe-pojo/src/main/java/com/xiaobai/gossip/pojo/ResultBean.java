@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 搜索条件封装
  */
-public class ResultBean implements Serializable{
+public class ResultBean implements Serializable {
 
     //关键词
     private String keywords;

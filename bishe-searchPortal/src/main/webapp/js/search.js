@@ -3,12 +3,12 @@
 var kv = window.location.search;
 // alert(kv);
 //如果没有传递任何的参数跳转首页
-if (kv == null || kv == ""||kv=="?keywords="||kv.split("&")[0].split("=")[1]=="") {
+if (kv == null || kv == "" || kv == "?keywords=" || kv.split("&")[0].split("=")[1] == "") {
     window.location.href = "/index.html";
 
 }
 var v = kv.split("&")[0].split("=")[1];
-var fenlei=kv.split("&")[1].split("=")[1];
+var fenlei = kv.split("&")[1].split("=")[1];
 
 //2. 将数据再次回显给搜索框
 //回显之前, 需要将数据, 进行url解码
@@ -17,8 +17,8 @@ var fenlei=kv.split("&")[1].split("=")[1];
 
 v = decodeURI(v);
 //   /\+/g :  是一个正则对象
-v =  v.replace(/\+/g," ");
-v =  v.replace(/%2B/g,"+");
+v = v.replace(/\+/g, " ");
+v = v.replace(/%2B/g, "+");
 
 //回显数据
 $("#inputSeach").val(v);
@@ -51,7 +51,7 @@ function ajaxQuery(page, pageSize) {
         "source": source,
         "pageBean.page": page,
         "pageBean.pageSize": pageSize,
-        "fenlei":fenlei
+        "fenlei": fenlei
 
     }
     $.post("/ps.action", params, function (data) { // 返回 pageBean对象
@@ -63,10 +63,10 @@ function ajaxQuery(page, pageSize) {
 
         //alert(data.pageCount)
         $(".toolBoxcount").html("");
-        $(".toolBoxcount").html("总共"+(data.pageCount)+"条结果");
-        if(data.pageCount==0){
+        $(".toolBoxcount").html("总共" + (data.pageCount) + "条结果");
+        if (data.pageCount == 0) {
             //alert("没数据");
-            var divkong="<div class=\"title\">没有找到相关内容</div>";
+            var divkong = "<div class=\"title\">没有找到相关内容</div>";
             $(".itemList").append(divkong);
         }
 
@@ -79,14 +79,14 @@ function ajaxQuery(page, pageSize) {
             var url = this.url;
             url = url.substring(0, 20) + "...";
             var divStr = "<div class=\"item\">\n" +
-                "                    <div class=\"title\"><a href=\"queryid.action?id="+ this.id+"&fenlei="+fenlei + "\">" + this.title + "</a></div>\n" +
+                "                    <div class=\"title\"><a href=\"queryid.action?id=" + this.id + "&fenlei=" + fenlei + "\">" + this.title + "</a></div>\n" +
                 "                <div class=\"contentInfo_src\">\n" +
                 "                    <a href=\"#\"><img src=\"./img/item.jpeg\" alt=\"\" class=\"imgSrc\" width=\"121px\" height=\"75px\"></a>\n" +
                 "                    <div class=\"infoBox\">\n" +
                 "                    <p class=\"describe\">\n" +
                 "                   " + this.content + " " +
                 "            </p>\n" +
-                "                <p><a class=\"showurl\" href=\"queryid.action?id="+ this.id+"&fenlei="+data.fenlei + "\">" + url + "&nbsp;&nbsp;&nbsp;" + this.time + "</a> <span class=\"lab\">" + this.editor + " - " + this.source + "</span></p>\n" +
+                "                <p><a class=\"showurl\" href=\"queryid.action?id=" + this.id + "&fenlei=" + data.fenlei + "\">" + url + "&nbsp;&nbsp;&nbsp;" + this.time + "</a> <span class=\"lab\">" + this.editor + " - " + this.source + "</span></p>\n" +
                 "                </div>\n" +
                 "                </div>\n" +
                 "                </div>"
@@ -120,8 +120,8 @@ function ajaxQuery(page, pageSize) {
         } else {//总页数大于7
 
             // 如果用户: 当前页 1~4  展示1~7，显示前7个页码  1 2 3 4 5 6 7
-            if(data.page <=4){
-                for(var i = 1 ; i<=7 ; i++){
+            if (data.page <= 4) {
+                for (var i = 1; i <= 7; i++) {
                     if (data.page == i) {
                         pageStr += "<li class='on'>" + i + "</li>";
                     } else {
@@ -132,9 +132,9 @@ function ajaxQuery(page, pageSize) {
 
             //如果用户: 当前页 大于4,展示: 当前页-3 ~ 当前页+3
             // 1 2 3 4 5 6 7 8 9 10
-            if(data.page>4 && data.page<= data.pageNumber-3){
+            if (data.page > 4 && data.page <= data.pageNumber - 3) {
 
-                for(var i =data.page-3 ; i<= data.page+3 ; i++ ){
+                for (var i = data.page - 3; i <= data.page + 3; i++) {
 
                     if (data.page == i) {
                         pageStr += "<li class='on'>" + i + "</li>";
@@ -146,8 +146,8 @@ function ajaxQuery(page, pageSize) {
             }
 
             //如果当前页+3大于等于总页数: 展示 总页数-6， 显示最后7个页码
-            if(data.page+3 >=data.pageNumber){
-                for(var i = data.pageNumber-6 ; i<= data.pageNumber ; i++){
+            if (data.page + 3 >= data.pageNumber) {
+                for (var i = data.pageNumber - 6; i <= data.pageNumber; i++) {
                     if (data.page == i) {
                         pageStr += "<li class='on'>" + i + "</li>";
                     } else {
@@ -173,13 +173,13 @@ function ajaxQuery(page, pageSize) {
 }
 
 
-function ajaxTopQuery(){
+function ajaxTopQuery() {
     //发送异步请求, 获取热搜词
 
-    $.get("/top.action",function(data){
+    $.get("/top.action", function (data) {
 
         var topList = $(data);
-        if(topList.length == 0 ){
+        if (topList.length == 0) {
             //暂时不做任何的处理
             return;
         }
@@ -187,13 +187,13 @@ function ajaxTopQuery(){
         var topDivStr = "";
         topList.each(function () {
             //this : map
-            topDivStr += "<div class='item' ><span style='width:100%;' onclick='topkey()'>"+this.topKeyWords+"</span><span style='float: right; color: red'>"+this.score+"</span></div>";
+            topDivStr += "<div class='item' ><span style='width:100%;' onclick='topkey()'>" + this.topKeyWords + "</span><span style='float: right; color: red'>" + this.score + "</span></div>";
 
         });
         $(".recommend").html(topDivStr);
 
 
-    },"json")
+    }, "json")
 }
 
 function topkey() {
@@ -201,5 +201,5 @@ function topkey() {
     var val = $(this).html();
 
     //如何执行查询 : 重新执行页面
-    window.location.href = "/list3.html?keywords="+val;
+    window.location.href = "/list3.html?keywords=" + val;
 }

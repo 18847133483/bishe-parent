@@ -40,22 +40,20 @@ public class HttpClientUtils {
 
     //获取closeHttpClient
     private static CloseableHttpClient getCloseableHttpClient() {
-
         CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(connectionManager).build();
-
         return httpClient;
     }
 
-
     /**
      * 执行请求返回HTML页面
+     *
      * @param httpRequestBase httpGet或httpPost
      * @return
      * @throws IOException
      */
     private static String execute(HttpRequestBase httpRequestBase) throws IOException {
 
-        httpRequestBase.setHeader("User-Agent","Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36");
+        httpRequestBase.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36");
         /**
          * setConnectionRequestTimeout:设置获取请求的最长时间
          *
@@ -63,31 +61,23 @@ public class HttpClientUtils {
          *
          * setSocketTimeout: 设置传输超时的最长时间
          */
-
-
         RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(5000).setConnectTimeout(10000)
                 .setSocketTimeout(10 * 1000).build();
-
         httpRequestBase.setConfig(config);
-
-
         CloseableHttpClient httpClient = getCloseableHttpClient();
-
         CloseableHttpResponse response = httpClient.execute(httpRequestBase);
         String html;
-        if(response.getStatusLine().getStatusCode()==200){
+        if (response.getStatusLine().getStatusCode() == 200) {
             html = EntityUtils.toString(response.getEntity(), "UTF-8");
-        }else{
+        } else {
             html = null;
         }
-
-
-
         return html;
     }
 
     /**
      * get请求执行
+     *
      * @param url 你要爬取的url链接
      * @return 爬取的网页数据
      * @throws IOException
@@ -103,8 +93,9 @@ public class HttpClientUtils {
 
     /**
      * post请求执行
-     * @param url 爬取的url
-     * @param param  要传递的参数
+     *
+     * @param url   爬取的url
+     * @param param 要传递的参数
      * @return
      * @throws Exception
      */

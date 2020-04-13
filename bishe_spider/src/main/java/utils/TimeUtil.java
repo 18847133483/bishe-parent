@@ -19,7 +19,8 @@ public class TimeUtil {
         }
         return str;
     }
-    public static String suijishu(){
+
+    public static String suijishu() {
         String time = getTimeYearMonthDay("yyyyMMddHHmmss");
         int i = (int) ((Math.random() * 9 + 1) * 10000);
 //        System.out.println(i);

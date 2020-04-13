@@ -21,6 +21,7 @@ public class addnewsserviceimpl implements addnewsservice {
     private IndexWriterService indexWriterService;
     @Autowired
     private JedisPool jedisPool;
+
     @Override
     public News savenews(minnews minnews) throws Exception {
         Jedis jedis = jedisPool.getResource();
@@ -30,11 +31,12 @@ public class addnewsserviceimpl implements addnewsservice {
         String id = TimeUtil.suijishu();
         news.setId(id);
         news.setTitle(minnews.getTitle());
-        String time = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(new Date()).toString();;
+        String time = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(new Date()).toString();
+        ;
         news.setTime(time);
         news.setContent(minnews.getContent());
-        news.setEditor("UD_"+minnews.getEditor());
-        news.setSource("UD_"+minnews.getSource());
+        news.setEditor("UD_" + minnews.getEditor());
+        news.setSource("UD_" + minnews.getSource());
         news.setUrl("未定义");
         indexWriterService.savenews(news);
         return news;

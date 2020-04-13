@@ -73,7 +73,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>wangyi.wangyizonghe</mainClass>
+                            <mainClass>wangyi.zonghui</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

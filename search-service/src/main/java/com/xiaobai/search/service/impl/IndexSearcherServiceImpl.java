@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 //注册到dubbo
 @Service
 public class IndexSearcherServiceImpl implements IndexSearcherService {
@@ -368,7 +369,7 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
     }
 
     @Override
-    public News findid(String id,String fenlei) throws Exception {
+    public News findid(String id, String fenlei) throws Exception {
         //1. 封装查询条件
         SolrQuery solrQuery = new SolrQuery("id:" + id);
 

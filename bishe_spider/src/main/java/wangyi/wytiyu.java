@@ -1,7 +1,7 @@
-package wangyi.caijing;
+package wangyi;
 
 import com.google.gson.Gson;
-import dao.wangyicaijingdao;
+import dao.wangyidao;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,20 +15,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static changliang.redischangliang.WANGYI_CAIJING;
+import static changliang.redischangliang.WANGYI_TIYU;
 
-public class caijingliebiao {
-    private static int count=0;
-    private static wangyicaijingdao wangyiyuledao = new wangyicaijingdao();
+public class wytiyu {
+    private static int count = 0;
 
-    public static void xiaomain() throws IOException {
+    public static void xiaomain(wangyidao wangyidao) throws IOException {
         //确定url
-        String url = "https://money.163.com/special/00259BVP/news_flow_index.js";
-        pagewangyi(url);
-        System.out.println("财经"+count);
+        String url = "https://sports.163.com/special/000587PR/newsdata_n_index.js";
+        pagewangyi(url, wangyidao);
+        System.out.println("体育" + count);
     }
 
-    public static void pagewangyi(String indexurl) throws IOException {
+    public static void pagewangyi(String indexurl, wangyidao wangyidao) throws IOException {
         String url = indexurl;
         int page = 2;
         while (true) {
@@ -36,7 +35,7 @@ public class caijingliebiao {
             if (StringUtils.isEmpty(doGet)) {
                 break;
             }
-            jiexijosnnews(doGet);
+            jiexijosnnews(doGet, wangyidao);
             String pagestring = "";
             if (page < 10) {
                 pagestring = "0" + page;
@@ -44,14 +43,14 @@ public class caijingliebiao {
                 pagestring = page + "";
             }
             page++;
-            url = "https://money.163.com/special/00259BVP/news_flow_index_" + pagestring + ".js";
+            url = "https://sports.163.com/special/000587PR/newsdata_n_index_" + pagestring + ".js";
 
 
         }
 
     }
 
-    private static void jiexijosnnews(String doGet) throws IOException {
+    private static void jiexijosnnews(String doGet, wangyidao wangyidao) throws IOException {
         //处理josn字符串,转换成格式良好的josn数组
         int indexOf = doGet.indexOf("(");
         int lastIndexOf = doGet.lastIndexOf(")");
@@ -60,7 +59,6 @@ public class caijingliebiao {
         Gson gson = new Gson();
         List<Map<String, Object>> list = gson.fromJson(substring, List.class);
         for (Map<String, Object> news : list) {
-            //System.out.println(news);
             //获取每条新闻的url
             String url = (String) news.get("docurl");
             if (url.contains("photoview") ||
@@ -68,7 +66,8 @@ public class caijingliebiao {
                     url.contains("c.m.163.com/") ||
                     url.contains("live.163.com") ||
                     url.contains("v.163.com") ||
-                    url.contains("https://money.163.com/20/0313/13/F7JPDBU400259DLP.html")) {
+                    url.contains("nba.sports.163.com") ||
+                    url.contains("data.2018.163.com")) {
                 continue;
             }
             //过滤已经怕去过的url
@@ -78,25 +77,28 @@ public class caijingliebiao {
             }
             count++;
             //获取每条新闻的html页面
-            jiexinews(url);
+            jiexinews(url, wangyidao);
         }
+
 
     }
 
     private static boolean yijingpaqu(String url) {
         Jedis jedis = JedisUtils.getJedis();
-        Boolean sismember = jedis.sismember(WANGYI_CAIJING, url);
+        Boolean sismember = jedis.sismember(WANGYI_TIYU, url);
         jedis.close();
         return sismember;
     }
 
-    private static void jiexinews(String docurl) throws IOException {
+    private static void jiexinews(String docurl, wangyidao wangyidao) throws IOException {
         news news = new news();
+
         String doGet = HttpClientUtils.doGet(docurl);
+        doGet = doGet + "";
         Document document = Jsoup.parse(doGet);
         //标题
         String title = document.select("#epContentLeft h1").text();
-        //时间
+        //事时间
         String timeandsource = document.select(".post_time_source").text();
         String[] split = timeandsource.split("　来源: ");
         String time = split[0];
@@ -107,7 +109,6 @@ public class caijingliebiao {
         String content = document.select("#endText p").text();
         //编辑
         String editor = document.select(".ep-editor").text().replace("责任编辑：", "");
-
         TimeUtil timeUtil = new TimeUtil();
         String id = timeUtil.suijishu();
         news.setId(id);
@@ -117,14 +118,13 @@ public class caijingliebiao {
         news.setContent(content);
         news.setEditor(editor);
         news.setDocurl(docurl);
-        wangyiyuledao.savenew(news);
+        wangyidao.savetiyu(news);
         savetoredis(docurl);
-
     }
 
     private static void savetoredis(String docurl) {
         Jedis jedis = JedisUtils.getJedis();
-        jedis.sadd(WANGYI_CAIJING, docurl);
+        jedis.sadd(WANGYI_TIYU, docurl);
         jedis.close();
     }
 }

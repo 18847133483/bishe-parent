@@ -7,6 +7,7 @@ public class news {
     private String source;
     private String content;
     private String editor;
+    private String url;
 
     public news() {
     }
@@ -90,5 +91,5 @@ public class news {
         this.url = docurl;
     }
 
-    private String url;
+
 }

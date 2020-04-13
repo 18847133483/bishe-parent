@@ -25,7 +25,7 @@
         <p>${news.content}</p>
     </table>
 </div>
-<div >
+<div>
     <div class="col-md-8"></div>
     <div class="col-md-4"><h4><font color="white">作者:${news.editor}</font></h4></div>
 </div>

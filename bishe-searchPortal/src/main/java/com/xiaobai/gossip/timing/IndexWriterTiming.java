@@ -13,9 +13,10 @@ import org.springframework.stereotype.Repository;
 public class IndexWriterTiming {
     @Autowired
     private NewsService newsService;
+
     //设置这个方法是定时执行： 每隔15分钟执行一次
     @Scheduled(cron = "0 0/1 * * * ?")
-    public void indexWriter(){
+    public void indexWriter() {
         try {
             newsService.newsIndexWriter();
         } catch (Exception e) {
