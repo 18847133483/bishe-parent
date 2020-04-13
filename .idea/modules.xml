@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/bishe-parent.iml" filepath="$PROJECT_DIR$/.idea/bishe-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/bishe-pojo/bishe-pojo.iml" filepath="$PROJECT_DIR$/bishe-pojo/bishe-pojo.iml" />
       <module fileurl="file://$PROJECT_DIR$/bishe-searchPortal/bishe-searchPortal.iml" filepath="$PROJECT_DIR$/bishe-searchPortal/bishe-searchPortal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bishe_spider/bishe_spider.iml" filepath="$PROJECT_DIR$/bishe_spider/bishe_spider.iml" />
       <module fileurl="file://$PROJECT_DIR$/search-service/search-service.iml" filepath="$PROJECT_DIR$/search-service/search-service.iml" />
     </modules>
   </component>

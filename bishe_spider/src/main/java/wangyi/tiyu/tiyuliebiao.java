@@ -1,0 +1,131 @@
+package wangyi.tiyu;
+
+import com.google.gson.Gson;
+import dao.wangyitiyudao;
+import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import pojo.news;
+import redis.clients.jedis.Jedis;
+import utils.HttpClientUtils;
+import utils.JedisUtils;
+import utils.TimeUtil;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import static changliang.redischangliang.WANGYI_TIYU;
+
+public class tiyuliebiao {
+    private static int count = 0;
+    private static wangyitiyudao wangyiyuledao = new wangyitiyudao();
+
+    public static void xiaomain() throws IOException {
+        //确定url
+        String url = "https://sports.163.com/special/000587PR/newsdata_n_index.js";
+        pagewangyi(url);
+        System.out.println("体育"+count);
+    }
+
+    public static void pagewangyi(String indexurl) throws IOException {
+        String url = indexurl;
+        int page = 2;
+        while (true) {
+            String doGet = HttpClientUtils.doGet(url);
+            if (StringUtils.isEmpty(doGet)) {
+                break;
+            }
+            jiexijosnnews(doGet);
+            String pagestring = "";
+            if (page < 10) {
+                pagestring = "0" + page;
+            } else {
+                pagestring = page + "";
+            }
+            page++;
+            url = "https://sports.163.com/special/000587PR/newsdata_n_index_" + pagestring + ".js";
+
+
+        }
+
+    }
+
+    private static void jiexijosnnews(String doGet) throws IOException {
+        //处理josn字符串,转换成格式良好的josn数组
+        int indexOf = doGet.indexOf("(");
+        int lastIndexOf = doGet.lastIndexOf(")");
+        String substring = doGet.substring(indexOf + 1, lastIndexOf);
+        //遍历josn数据
+        Gson gson = new Gson();
+        List<Map<String, Object>> list = gson.fromJson(substring, List.class);
+        for (Map<String, Object> news : list) {
+            //获取每条新闻的url
+            String url = (String) news.get("docurl");
+            if (url.contains("photoview") ||
+                    url.contains("article/detail") ||
+                    url.contains("c.m.163.com/") ||
+                    url.contains("live.163.com") ||
+                    url.contains("v.163.com") ||
+                    url.contains("nba.sports.163.com") ||
+                    url.contains("data.2018.163.com")) {
+                continue;
+            }
+            //过滤已经怕去过的url
+            boolean yijingpaqu = yijingpaqu(url);
+            if (yijingpaqu) {
+                continue;
+            }
+            count++;
+            //获取每条新闻的html页面
+            jiexinews(url);
+        }
+
+
+    }
+
+    private static boolean yijingpaqu(String url) {
+        Jedis jedis = JedisUtils.getJedis();
+        Boolean sismember = jedis.sismember(WANGYI_TIYU, url);
+        jedis.close();
+        return sismember;
+    }
+
+    private static void jiexinews(String docurl) throws IOException {
+        news news = new news();
+
+        String doGet = HttpClientUtils.doGet(docurl);
+        doGet = doGet + "";
+        Document document = Jsoup.parse(doGet);
+        //标题
+        String title = document.select("#epContentLeft h1").text();
+        //事时间
+        String timeandsource = document.select(".post_time_source").text();
+        String[] split = timeandsource.split("　来源: ");
+        String time = split[0];
+        //来源
+        String source01 = document.select(".left").text();
+        String source = source01.replace("本文来源：", "");
+        //内容
+        String content = document.select("#endText p").text();
+        //编辑
+        String editor = document.select(".ep-editor").text().replace("责任编辑：", "");
+        TimeUtil timeUtil = new TimeUtil();
+        String id = timeUtil.suijishu();
+        news.setId(id);
+        news.setTitle(title);
+        news.setTime(time);
+        news.setSource(source);
+        news.setContent(content);
+        news.setEditor(editor);
+        news.setDocurl(docurl);
+        wangyiyuledao.savenew(news);
+        savetoredis(docurl);
+    }
+
+    private static void savetoredis(String docurl) {
+        Jedis jedis = JedisUtils.getJedis();
+        jedis.sadd(WANGYI_TIYU, docurl);
+        jedis.close();
+    }
+}

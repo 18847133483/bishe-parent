@@ -9,6 +9,7 @@
         <module name="bishe-interface" />
         <module name="bishe-pojo" />
         <module name="bishe-searchPortal" />
+        <module name="bishe_spider" />
         <module name="gossip-interface" />
         <module name="gossip-pojo" />
         <module name="gossip-searchPortal" />
@@ -20,6 +21,7 @@
       <module name="bishe-parent" target="1.8" />
       <module name="bishe-pojo" target="1.8" />
       <module name="bishe-searchPortal" target="1.8" />
+      <module name="bishe_spider" target="1.8" />
       <module name="gossip-interface" target="1.8" />
       <module name="gossip-parent" target="1.8" />
       <module name="gossip-pojo" target="1.8" />
