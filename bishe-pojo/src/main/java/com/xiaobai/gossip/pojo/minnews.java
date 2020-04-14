@@ -19,28 +19,18 @@ public class minnews implements Serializable {
     private String editor;
     //时间
     @Field
-    private String time;
-
-    @Override
-    public String toString() {
-        return "minnews{" +
-                "title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", source='" + source + '\'' +
-                ", editor='" + editor + '\'' +
-                ", time='" + time + '\'' +
-                '}';
-    }
+    private String fenlei;
 
     public minnews() {
     }
 
-    public minnews(String title, String content, String source, String editor, String time) {
+    public minnews(String title, String content, String source, String editor, String fenlei) {
+
         this.title = title;
         this.content = content;
         this.source = source;
         this.editor = editor;
-        this.time = time;
+        this.fenlei = fenlei;
     }
 
     public String getTitle() {
@@ -75,11 +65,22 @@ public class minnews implements Serializable {
         this.editor = editor;
     }
 
-    public String getTime() {
-        return time;
+    public String getFenlei() {
+        return fenlei;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setFenlei(String fenlei) {
+        this.fenlei = fenlei;
+    }
+
+    @Override
+    public String toString() {
+        return "minnews{" +
+                "title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", source='" + source + '\'' +
+                ", editor='" + editor + '\'' +
+                ", fenlei='" + fenlei + '\'' +
+                '}';
     }
 }

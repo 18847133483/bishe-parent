@@ -65,7 +65,6 @@ public class IndexWriterServiceImpl implements IndexWriterService {
             yuleSolrServer.addBeans(newsList);
             yuleSolrServer.commit();
         }
-
     }
 
     @Override

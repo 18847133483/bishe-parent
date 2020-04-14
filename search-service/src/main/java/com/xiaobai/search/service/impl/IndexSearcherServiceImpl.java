@@ -56,7 +56,6 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 
         //1. 封装查询条件
         SolrQuery solrQuery = new SolrQuery("text:" + resultBean.getKeywords());
-
         //1.1 添加高亮的内容
         //开启高亮
         solrQuery.setHighlight(true);
@@ -66,8 +65,6 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
         //设置前缀和后缀
         solrQuery.setHighlightSimplePre("<em style='color:red'>");
         solrQuery.setHighlightSimplePost("</em>");
-
-
         //1.2 组装查询工具条里面的条件：起始时间 结束时间  来源  编辑
         String sourceQ = resultBean.getSource();
         if (StringUtils.isNotEmpty(sourceQ)) {
@@ -77,10 +74,8 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
         if (StringUtils.isNotEmpty(editorQ)) {
             solrQuery.addFilterQuery("editor:" + editorQ);
         }
-
         String startDate = resultBean.getStartDate();
         String endDate = resultBean.getEndDate();
-
         //前端传递日期格式：01/21/2019 11:53:32  MM/dd/yyyy HH:mm:ss
         if (StringUtils.isNotEmpty(startDate) && StringUtils.isNotEmpty(endDate)) {
             //时间范围查询
@@ -88,8 +83,6 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
             //  12/12/2018 15:25:52 :  MM/dd/yyyy HH:mm:ss
             SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
             SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-
-
             //转换成日期类型
             Date startDate2 = format2.parse(startDate);
             //转换成我们想要的utf格式的字符串
@@ -126,18 +119,13 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
         SolrDocumentList documentList = response.getResults();
         //System.out.println(documentList.toString());
         //System.out.println("查询了一下");
-
-
         //2.2 获取高亮的结果内容
         Map<String, Map<String, List<String>>> map = response.getHighlighting();
-
         //处理结果：减去8小时
 //        SimpleDateFormat solrFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         ArrayList<News> newsList = new ArrayList<>();
         for (SolrDocument document : documentList) {
-
             News news = new News();
             String id = (String) document.get("id");
             String title = (String) document.get("title");
@@ -145,29 +133,24 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
             String editor = (String) document.get("editor");
             String url = (String) document.get("url");
             String source = (String) document.get("source");
-
             //获取高亮的内容
             Map<String, List<String>> mapList = map.get(id);
-
             //获取title的高亮内容
             List<String> titleList = mapList.get("title");
             if (titleList != null && titleList.size() > 0) {
                 title = titleList.get(0);
             }
-
             //获取content的高亮内容
             List<String> contentList = mapList.get("content");
             if (contentList != null && contentList.size() > 0) {
                 content = contentList.get(0);
             }
-
             news.setId(id);
             news.setTitle(title);
             news.setContent(content);
             news.setEditor(editor);
             news.setUrl(url);
             news.setSource(source);
-
             //获取时间
             Date time = (Date) document.get("time");
             //将solr的格式转换成日期
@@ -175,10 +158,8 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
             time = new Date(time.getTime() - 1000 * 60 * 60 * 8);
             //格式化成我们想要格式
             String timeString = format.format(time);
-
             //重新设置会新闻对象上面
             news.setTime(timeString);
-
             //添加到新闻列表中
             newsList.add(news);
         }
@@ -186,7 +167,6 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
         //3. 返回结果
         return newsList;
     }
-
     /**
      * 分页条件查询的方法
      *
@@ -196,10 +176,8 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
      */
     @Override
     public PageBean findByPageQuery(ResultBean resultBean) throws Exception {
-
         //1. 封装查询条件
         SolrQuery solrQuery = new SolrQuery("text:" + resultBean.getKeywords());
-
         //1.1 添加高亮的内容
         //开启高亮
         solrQuery.setHighlight(true);
@@ -209,8 +187,6 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
         //设置前缀和后缀
         solrQuery.setHighlightSimplePre("<em style='color:red'>");
         solrQuery.setHighlightSimplePost("</em>");
-
-
         //1.2 组装查询工具条里面的条件：起始时间 结束时间  来源  编辑
         String sourceQ = resultBean.getSource();
         if (StringUtils.isNotEmpty(sourceQ)) {
@@ -220,10 +196,8 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
         if (StringUtils.isNotEmpty(editorQ)) {
             solrQuery.addFilterQuery("editor:" + editorQ);
         }
-
         String startDate = resultBean.getStartDate();
         String endDate = resultBean.getEndDate();
-
         //前端传递日期格式：01/21/2019 11:53:32  MM/dd/yyyy HH:mm:ss
         if (StringUtils.isNotEmpty(startDate) && StringUtils.isNotEmpty(endDate)) {
             //时间范围查询
@@ -231,25 +205,16 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
             //  12/12/2018 15:25:52 :  MM/dd/yyyy HH:mm:ss
             SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
             SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-
-
             //转换成日期类型
             Date startDate2 = format2.parse(startDate);
             //转换成我们想要的utf格式的字符串
             startDate = format1.format(startDate2);
-
             Date endDate2 = format2.parse(endDate);
             endDate = format1.format(endDate2);
-
-
             solrQuery.addFilterQuery("time:[" + startDate + " TO " + endDate + "]");
         }
-
-
         //1.3 排序条件： 日期倒序排列
         //solrQuery.setSort("time", SolrQuery.ORDER.desc);
-
-
         //1.4 分页条件 ： start  rows
         //当前页
         Integer page = resultBean.getPageBean().getPage();
@@ -257,8 +222,6 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
         Integer start = (page - 1) * pageSize;
         solrQuery.setStart(start);
         solrQuery.setRows(pageSize);
-
-
         //2. 执行查询
         String fenlei = resultBean.getFenlei();
         //System.out.println(fenlei);

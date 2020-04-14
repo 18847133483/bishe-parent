@@ -7,11 +7,9 @@ http://code.alibabatech.com/schema/dubbo ">
 
     <bean class="org.apache.solr.client.solrj.impl.CloudSolrServer" name="caijing">
         <!--指定zookeeper的连接地址-->
-        <constructor-arg name="zkHost"
-                         value="localhost:2181"></constructor-arg>
+        <constructor-arg name="zkHost" value="localhost:2181"></constructor-arg>
         <!--默认的索引库-->
         <property name="defaultCollection" value="collection1"></property>
-
         <!--从zookeeper中获取的客户端的超时时间, -->
         <property name="zkClientTimeout" value="5000"></property>
         <!--设置 连接 zookeeper的超时时间-->
@@ -19,11 +17,9 @@ http://code.alibabatech.com/schema/dubbo ">
     </bean>
     <bean class="org.apache.solr.client.solrj.impl.CloudSolrServer" name="keji">
         <!--指定zookeeper的连接地址-->
-        <constructor-arg name="zkHost"
-                         value="localhost:2181"></constructor-arg>
+        <constructor-arg name="zkHost" value="localhost:2181"></constructor-arg>
         <!--默认的索引库-->
         <property name="defaultCollection" value="collection2"></property>
-
         <!--从zookeeper中获取的客户端的超时时间, -->
         <property name="zkClientTimeout" value="5000"></property>
         <!--设置 连接 zookeeper的超时时间-->
@@ -35,7 +31,6 @@ http://code.alibabatech.com/schema/dubbo ">
                          value="localhost:2181"></constructor-arg>
         <!--默认的索引库-->
         <property name="defaultCollection" value="collection3"></property>
-
         <!--从zookeeper中获取的客户端的超时时间, -->
         <property name="zkClientTimeout" value="5000"></property>
         <!--设置 连接 zookeeper的超时时间-->
@@ -47,7 +42,6 @@ http://code.alibabatech.com/schema/dubbo ">
                          value="localhost:2181"></constructor-arg>
         <!--默认的索引库-->
         <property name="defaultCollection" value="collection4"></property>
-
         <!--从zookeeper中获取的客户端的超时时间, -->
         <property name="zkClientTimeout" value="5000"></property>
         <!--设置 连接 zookeeper的超时时间-->
@@ -59,7 +53,6 @@ http://code.alibabatech.com/schema/dubbo ">
                          value="localhost:2181"></constructor-arg>
         <!--默认的索引库-->
         <property name="defaultCollection" value="collection5"></property>
-
         <!--从zookeeper中获取的客户端的超时时间, -->
         <property name="zkClientTimeout" value="5000"></property>
         <!--设置 连接 zookeeper的超时时间-->
@@ -71,13 +64,11 @@ http://code.alibabatech.com/schema/dubbo ">
                          value="localhost:2181"></constructor-arg>
         <!--默认的索引库-->
         <property name="defaultCollection" value="collection6"></property>
-
         <!--从zookeeper中获取的客户端的超时时间, -->
         <property name="zkClientTimeout" value="5000"></property>
         <!--设置 连接 zookeeper的超时时间-->
         <property name="zkConnectTimeout" value="5000"></property>
     </bean>
-
     <!--dubbox相关配置-->
     <dubbo:protocol name="dubbo" port="20881"></dubbo:protocol>
     <dubbo:application name="search-service"/>

@@ -77,7 +77,7 @@ public class NewsController {
                 return null;
             }
             String fenlei = resultBean.getFenlei();
-            System.out.println(fenlei);
+            //System.out.println(fenlei);
 
             //如果没有分页条件，需要自己实例化pagebean对象
             if (resultBean.getPageBean() == null) {
@@ -88,7 +88,7 @@ public class NewsController {
 
             //3.调用服务层进行查询
             PageBean pageBean = newsService.findByPageQuery(resultBean);
-            System.out.println(pageBean.toString());
+            //System.out.println(pageBean.toString());
             return pageBean;
         } catch (Exception e) {
             e.printStackTrace();

@@ -14,7 +14,6 @@
         <module>bishe-searchPortal</module>
         <module>bishe-pojo</module>
     </modules>
-
     <!-- 集中定义依赖版本号 -->
     <properties>
         <spring.version>4.2.4.RELEASE</spring.version>
@@ -28,7 +27,6 @@
         <solrj.version>4.10.2</solrj.version>
         <javassist.version>3.11.0.GA</javassist.version>
     </properties>
-
     <dependencyManagement>
         <dependencies>
             <!-- spring 相关的依赖包 -->
@@ -67,7 +65,6 @@
                 <artifactId>spring-web</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-
             <!-- mybatis 相关的依赖包 -->
             <dependency>
                 <groupId>org.mybatis</groupId>
@@ -150,7 +147,6 @@
                 <version>${javassist.version}</version>
             </dependency>
         </dependencies>
-
     </dependencyManagement>
     <build>
         <plugins>

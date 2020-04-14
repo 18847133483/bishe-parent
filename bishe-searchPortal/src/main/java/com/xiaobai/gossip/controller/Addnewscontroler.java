@@ -35,6 +35,7 @@ public class Addnewscontroler {
         }
 
         //3.调用服务层进行查询
+        System.out.println(minnews);
         News savenews = addnewsservice.savenews(minnews);
         model.addObject(savenews);
         model.setViewName("forward:shownews.jsp");
