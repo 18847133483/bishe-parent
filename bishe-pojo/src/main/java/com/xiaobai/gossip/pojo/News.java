@@ -26,6 +26,20 @@ public class News implements Serializable {
     //编辑
     @Field
     private String editor;
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", url='" + url + '\'' +
+                ", content='" + content + '\'' +
+                ", source='" + source + '\'' +
+                ", editor='" + editor + '\'' +
+                ", time='" + time + '\'' +
+                '}';
+    }
+
     //时间
     @Field
     private String time;

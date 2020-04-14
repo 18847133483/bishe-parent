@@ -101,15 +101,11 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 
             solrQuery.addFilterQuery("time:[" + startDate + " TO " + endDate + "]");
         }
-
-
         //1.3 排序条件： 日期倒序排列
         solrQuery.setSort("time", SolrQuery.ORDER.desc);
-
-
         //2. 执行查询
         String fenlei = resultBean.getFenlei();
-        System.out.println(fenlei);
+        //System.out.println(fenlei);
         QueryResponse response = null;
         if (fenlei == "caijing") {
             response = caijingSolrServer.query(solrQuery);
@@ -265,36 +261,36 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 
         //2. 执行查询
         String fenlei = resultBean.getFenlei();
-        System.out.println(fenlei);
+        //System.out.println(fenlei);
         QueryResponse response = null;
         if (fenlei.equals("caijing")) {
             response = caijingSolrServer.query(solrQuery);
-            System.out.println("索引库:财经");
+            //System.out.println("索引库:财经");
         }
         if (fenlei.equals("keji")) {
             response = kejiSolrServer.query(solrQuery);
-            System.out.println("索引库:科技");
+            //System.out.println("索引库:科技");
         }
         if (fenlei.equals("shishang")) {
             response = shishangSolrServer.query(solrQuery);
-            System.out.println("索引库:时尚");
+            //System.out.println("索引库:时尚");
         }
         if (fenlei.equals("tiyu")) {
             response = tiyuSolrServer.query(solrQuery);
-            System.out.println("索引库:体育");
+            //System.out.println("索引库:体育");
         }
         if (fenlei.equals("xinwen")) {
             response = xinwenSolrServer.query(solrQuery);
-            System.out.println("索引库:新闻");
+            //System.out.println("索引库:新闻");
         }
         if (fenlei.equals("yule")) {
             response = yuleSolrServer.query(solrQuery);
-            System.out.println("索引库:娱乐");
+            //System.out.println("索引库:娱乐");
         }
         //2.1 获取结果(不带高亮的内容)
         SolrDocumentList documentList = response.getResults();
-        System.out.println(documentList.getNumFound());
-        System.out.println("查询了一下");
+        //System.out.println(documentList.getNumFound());
+        //System.out.println("查询了一下");
 
 
         //2.2 获取高亮的结果内容
@@ -364,7 +360,7 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
         Double pageNumber = Math.ceil(1.0 * pageCount / pageSize);
         pageBean.setPageNumber(pageNumber.intValue());
 
-        System.out.println(pageBean.toString());
+        //System.out.println(pageBean.toString());
         return pageBean;
     }
 
@@ -372,42 +368,42 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
     public News findid(String id, String fenlei) throws Exception {
         //1. 封装查询条件
         SolrQuery solrQuery = new SolrQuery("id:" + id);
-
-        //2. 执行查询
-        QueryResponse response = null;
-        if (fenlei.equals("caijing")) {
-            response = caijingSolrServer.query(solrQuery);
-            System.out.println("索引库:财经");
-        }
-        if (fenlei.equals("keji")) {
-            response = kejiSolrServer.query(solrQuery);
-            System.out.println("索引库:科技");
-        }
-        if (fenlei.equals("shishang")) {
-            response = shishangSolrServer.query(solrQuery);
-            System.out.println("索引库:时尚");
-        }
-        if (fenlei.equals("tiyu")) {
-            response = tiyuSolrServer.query(solrQuery);
-            System.out.println("索引库:体育");
-        }
-        if (fenlei.equals("xinwen")) {
-            response = xinwenSolrServer.query(solrQuery);
-            System.out.println("索引库:新闻");
-        }
-        if (fenlei.equals("yule")) {
-            response = yuleSolrServer.query(solrQuery);
-            System.out.println("索引库:娱乐");
-        }
-        //2.1 获取结果(不带高亮的内容)
-        SolrDocumentList documentList = response.getResults();
-        System.out.println(documentList.getNumFound());
-        System.out.println("查询了一下");
-
-
         //处理结果：减去8小时
         //SimpleDateFormat solrFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        //2. 执行查询
+        News news=null;
+        if (fenlei.equals("caijing")) {
+            QueryResponse response = caijingSolrServer.query(solrQuery);
+            news = getNews(response,format);
+        }
+        if (fenlei.equals("keji")) {
+            QueryResponse response = kejiSolrServer.query(solrQuery);
+            news = getNews(response,format);
+        }
+        if (fenlei.equals("shishang")) {
+            QueryResponse response = shishangSolrServer.query(solrQuery);
+            news = getNews(response,format);
+        }
+        if (fenlei.equals("tiyu")) {
+            QueryResponse response = tiyuSolrServer.query(solrQuery);
+            news = getNews(response,format);
+        }
+        if (fenlei.equals("xinwen")) {
+            QueryResponse response = xinwenSolrServer.query(solrQuery);
+            news = getNews(response,format);
+        }
+        if(fenlei.equals("yule")){
+            QueryResponse response = yuleSolrServer.query(solrQuery);
+            news = getNews(response,format);
+        }
+        return news;
+    }
+
+    private News getNews(QueryResponse response,SimpleDateFormat format) {
+        String id;//2.1 获取结果(不带高亮的内容)
+        SolrDocumentList documentList = response.getResults();
 
         News news = new News();
         for (SolrDocument document : documentList) {
@@ -434,7 +430,6 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
             news.setTime(timeString);
             //添加到新闻列表中
         }
-
         return news;
     }
 }

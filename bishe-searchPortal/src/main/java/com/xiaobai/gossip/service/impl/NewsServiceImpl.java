@@ -107,7 +107,7 @@ public class NewsServiceImpl implements NewsService {
             indexWriterService.saveBeans(newsList,table);
             //4. 获取这一页数据的最大id
             maxid = newsMapper.maxid(table,maxid);
-            System.out.println(table+"写入索引库："+ newsList.size());
+            //System.out.println(table+"写入索引库："+ newsList.size());
         }
     }
 
@@ -158,8 +158,8 @@ public class NewsServiceImpl implements NewsService {
         for (News news : pageBean.getNewsList()) {
             String content = news.getContent();
 
-            if (StringUtils.isNotEmpty(content) && (content.length() > 100)) {
-                content = content.substring(0, 100) + "...";
+            if (StringUtils.isNotEmpty(content) && (content.length() > 250)) {
+                content = content.substring(0, 250) + "...";
                 news.setContent(content);
             }
         }

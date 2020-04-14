@@ -81,15 +81,26 @@ function ajaxQuery(page, pageSize) {
             var divStr = "<div class=\"item\">\n" +
                 "                    <div class=\"title\"><a href=\"queryid.action?id=" + this.id + "&fenlei=" + fenlei + "\">" + this.title + "</a></div>\n" +
                 "                <div class=\"contentInfo_src\">\n" +
-                "                    <a href=\"#\"><img src=\"./img/item.jpeg\" alt=\"\" class=\"imgSrc\" width=\"121px\" height=\"75px\"></a>\n" +
                 "                    <div class=\"infoBox\">\n" +
                 "                    <p class=\"describe\">\n" +
                 "                   " + this.content + " " +
                 "            </p>\n" +
-                "                <p><a class=\"showurl\" href=\"queryid.action?id=" + this.id + "&fenlei=" + data.fenlei + "\">" + url + "&nbsp;&nbsp;&nbsp;" + this.time + "</a> <span class=\"lab\">" + this.editor + " - " + this.source + "</span></p>\n" +
+                "                <p><a class=\"showurl\" href=\"queryid.action?id=" + this.id + "&fenlei=" + fenlei + "\">" + url + "&nbsp;&nbsp;&nbsp;" + this.time + "</a> <span class=\"lab\">" + this.editor + " - " + this.source + "</span></p>\n" +
                 "                </div>\n" +
                 "                </div>\n" +
                 "                </div>"
+            //     <div class=\"item\">\n" +
+            // "                    <div class=\"title\"><a href=\"queryid.action?id=" + this.id + "&fenlei=" + fenlei + "\">" + this.title + "</a></div>\n" +
+            // "                <div class=\"contentInfo_src\">\n" +
+            // "                    <a href=\"#\"><img src=\"./img/item.jpeg\" alt=\"\" class=\"imgSrc\" width=\"121px\" height=\"75px\"></a>\n" +
+            // "                    <div class=\"infoBox\">\n" +
+            // "                    <p class=\"describe\">\n" +
+            // "                   " + this.content + " " +
+            // "            </p>\n" +
+            // "                <p><a class=\"showurl\" href=\"queryid.action?id=" + this.id + "&fenlei=" + fenlei + "\">" + url + "&nbsp;&nbsp;&nbsp;" + this.time + "</a> <span class=\"lab\">" + this.editor + " - " + this.source + "</span></p>\n" +
+            // "                </div>\n" +
+            // "                </div>\n" +
+            // "                </div>
 
             $(".itemList").append(divStr);
 

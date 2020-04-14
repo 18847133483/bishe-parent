@@ -61,7 +61,7 @@ public class PageBean implements Serializable {
                 ", pageSize=" + pageSize +
                 ", pageCount=" + pageCount +
                 ", pageNumber=" + pageNumber +
-                ", newsList=" + newsList.size() +
+                ", newsList=" + newsList +
                 '}';
     }
 

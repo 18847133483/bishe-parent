@@ -27,7 +27,9 @@ public class queryidnewscontroler {
         }
         //3.调用服务层进行查询
         News news = newsService.finfid(id, fenlei);
-        model.addObject(news);
+        if(news!=null){
+            model.addObject(news);
+        }
         model.setViewName("forward:shownews.jsp");
         return model;
     }
