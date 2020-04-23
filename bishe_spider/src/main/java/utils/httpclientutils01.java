@@ -19,13 +19,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author itheima
- * @Title: HttpClientUtils
- * @ProjectName gossip_spider_parent
- * @Description: httpclient的工具类
- * @date 2019/1/119:45
- */
-public class HttpClientUtils {
+ * @program: bishe-parent
+ * @description: 编码问题测试
+ * @author: xiaobai
+ * @create: 2020-04-22 16:18
+ **/
+public class httpclientutils01 {
     private static PoolingHttpClientConnectionManager connectionManager;
 
     static {
@@ -51,7 +50,7 @@ public class HttpClientUtils {
      * @return
      * @throws IOException
      */
-    private static String execute(HttpRequestBase httpRequestBase) throws IOException {
+    private static String execute(HttpRequestBase httpRequestBase){
 
         httpRequestBase.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36");
         /**新的Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36
@@ -62,17 +61,21 @@ public class HttpClientUtils {
          *
          * setSocketTimeout: 设置传输超时的最长时间
          */
-        RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(10000).setConnectTimeout(10000)
-                .setSocketTimeout(10 * 1000).build();
-        httpRequestBase.setConfig(config);
-        CloseableHttpClient httpClient = getCloseableHttpClient();
-        CloseableHttpResponse response = httpClient.execute(httpRequestBase);
-        String html;
-        if (response.getStatusLine().getStatusCode() == 200) {
-            html = EntityUtils.toString(response.getEntity(), "UTF-8");
-            response.close();
-        } else {
-            html = null;
+        String html=null;
+        try {
+            RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(10000).setConnectTimeout(10000)
+                    .setSocketTimeout(10 * 1000).build();
+            httpRequestBase.setConfig(config);
+            CloseableHttpClient httpClient = getCloseableHttpClient();
+            CloseableHttpResponse response = httpClient.execute(httpRequestBase);
+            if (response.getStatusLine().getStatusCode() == 200) {
+                html = EntityUtils.toString(response.getEntity(), "GB2312");
+                response.close();
+            } else {
+                html = null;
+            }
+        }catch (IOException e){
+            return html;
         }
         return html;
     }
@@ -116,4 +119,3 @@ public class HttpClientUtils {
         return execute(httpPost);
     }
 }
-

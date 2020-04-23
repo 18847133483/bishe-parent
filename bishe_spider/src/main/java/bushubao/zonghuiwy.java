@@ -1,10 +1,11 @@
-package wangyi;
+package bushubao;
 
 import dao.wangyidao;
+import wangyi.*;
 
 import java.io.IOException;
 
-public class zonghui {
+public class zonghuiwy {
     private static wangyidao wangyidao = new wangyidao();
 
     public static void main(String[] args) throws IOException {

@@ -48,12 +48,12 @@
     </form>
 </div>
 <div class="col-md-1"></div>
-<script type="text/javascript">
-    setInterval("time.innerHTML=new Date().toLocaleString()");
-    window.onload = function () {
-        setInterval("time.innerHTML=new Date().toLocaleString()", 1000);
-    }
-</script>
+<!--<script type="text/javascript">-->
+    <!--setInterval("time.innerHTML=new Date().toLocaleString()");-->
+    <!--window.onload = function () {-->
+        <!--setInterval("time.innerHTML=new Date().toLocaleString()", 1000);-->
+    <!--}-->
+<!--</script>-->
 <script language="javascript">
     function validate_title(field, alerttxt) {
         with (field) {
@@ -115,19 +115,19 @@
         }
         with (thisfrom) {
             if (validate_content(content, "内容不能为空!") == false) {
-                title.focus();
+                content.focus();
                 return false;
             }
         }
         with (thisfrom) {
             if (validate_source(source, "来源不能为空!") == false) {
-                title.focus();
+                source.focus();
                 return false;
             }
         }
         with (thisfrom) {
             if (validate_editor(editor, "编辑不能为空!") == false) {
-                title.focus();
+                editor.focus();
                 return false;
             }
         }
