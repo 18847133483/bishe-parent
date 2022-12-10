@@ -16,7 +16,7 @@
     </modules>
     <!-- 集中定义依赖版本号 -->
     <properties>
-        <spring.version>4.2.4.RELEASE</spring.version>
+        <spring.version>6.0.0</spring.version>
         <dubbo.version>2.6.0</dubbo.version>
         <zookeeper.version>3.4.14</zookeeper.version>
         <zkclient.version>0.1</zkclient.version>
